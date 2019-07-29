@@ -54,8 +54,9 @@ spring:
 
   redis: #---------------------------------------------------------------- Redis配置
     ssl: false
-    host: 39.108.68.132
-    port: 16379
+    host: redis.msvc.top
+    port: 6379
+    password: lizhiwei1993
     timeout: 1s
     database: 0
     lettuce:
@@ -69,8 +70,8 @@ spring:
   cloud: #------------------------------------------------------------ Spring Cloud
     consul:
       enabled: false
-      host: '127.0.0.1'
-      port: 8500
+      host: consul.msvc.top
+      port: 80
       discovery:
         enabled: true
         instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
@@ -80,6 +81,8 @@ spring:
           - serviceName=${spring.application.name}
         health-check-path: '/actuator/health'
         health-check-interval: 1s
+        prefer-ip-address: true
+        health-check-url: http://${spring.cloud.client.ip-address}:${server.port}/actuator/health
 
 ###################################################################################
 ### management配置
@@ -190,7 +193,8 @@ clever:
 # DefaultClientConfigImpl.loadProperties(restClientName)加载配置,配置定义位置CommonClientConfigKey
 clever-security-server:
   ribbon:
-    listOfServers: 'http://127.0.0.1:28081'
+    # listOfServers: 'http://127.0.0.1:28081'
+    listOfServers: security.msvc.top
     ConnectTimeout: 5000
     ReadTimeout: 5000
 
